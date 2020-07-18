@@ -1,0 +1,130 @@
+{% extends 'fact/base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb-bg.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb-text">
+                    <h2>Our Blog</h2>
+                    <div class="bt-option">
+                        <a href="{% url 'home' %}">Home</a>
+                        <span>Blog</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+
+<!-- Blog Section Begin -->
+<section class="blog-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-1 p-0"></div>
+            <div class="col-lg-10 p-0">
+                {% for blog in blog_obj %}
+                <div class="blog-item">
+                    <div class="bi-pic" onclick="window.location='{% url 'blog_details' blog.id %}';" style="cursor:pointer;">
+                        <img src="{{blog.imageURL}}" alt="">
+                    </div>
+                    <div class="bi-text" onclick="window.location='{% url 'blog_details' blog.id %}';" style="cursor:pointer;">
+                        <h5><a>{{blog.heading}}</a></h5>
+                        <ul>
+                            <li>by Admin</li>
+                            <li>{{blog.time}}</li>
+                            {% if request.user.is_superuser %}
+                            <a class="btn btn-sm btn-danger" href="{% url 'delete_blog' blog.id %}">Delete</a>
+                            {% endif %}
+                        </ul>
+                        <p>{{blog.text}}</p>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+                <div class="blog-pagination">
+                    {% if blog_obj.has_other_pages %}
+                    <ul class="pagination justify-content-center">
+                        {% if blog_obj.has_previous %}
+                        <li><a href="?page={{ blog_obj.previous_page_number }}">&laquo;</a></li>
+                        {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                        {% endif %}
+                        {% for i in blog_obj.paginator.page_range %}
+                        {% if blog_obj.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if blog_obj.has_next %}
+                        <li><a href="?page={{ blog_obj.next_page_number }}">&raquo;</a></li>
+                        {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                {% if request.user.is_superuser %}
+                <section class="contact-section spad ">
+                    <div class="container ">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="leave-comment">
+                                    <form method="POST" enctype="multipart/form-data" action="">
+                                        {% csrf_token %}
+                                        {{form.as_p}}
+                                        <button type="submit">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Section End -->
+
+
+
+<div class="gettouch-section">
+    <div class="container">
+        {% for info in info_obj %}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="gt-text">
+                    <i class="fa fa-map-marker"></i>
+                    <p>{{info.address}}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gt-text">
+                    <i class="fa fa-mobile"></i>
+                    <ul>
+                        <li>{{info.mobile}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gt-text email">
+                    <i class="fa fa-envelope"></i>
+                    <p>{{info.email}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- Get In Touch Section End -->
+
+{% endblock content %}

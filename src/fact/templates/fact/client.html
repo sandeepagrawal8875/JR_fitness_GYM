@@ -1,0 +1,122 @@
+{% extends 'fact/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb-bg.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                        <h2>Member</h2>
+                        <div class="bt-option">
+                            <a href="{% url 'home' %}">Home</a>
+                            <a href="{% url 'admin_page' %}">Admin</a>
+                            <span>Client</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+<br/><br/>
+<section>
+  <div class="row">
+    <div class="col">
+      <div class="card card-body">
+        <form method="get">
+          {{myFilter.form}}
+          <button class="btn btn-primary" type="submit">Search</button>
+          </form>
+        <div>
+      </div>
+  </div>
+</section>
+
+   <!-- Client section -->
+    <section >
+        <div class="row">
+            <div class="col"><br/><br/>
+                <div class="box-element">
+                    <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Picture</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">join Date</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for client in client_obj %}
+                      <tr>
+                        <td> <img style="width:100px; height:auto;" src="{{ client.pic.url }}" alt=""></td>
+                        <th>{{client.name}}</th>
+                        <td>{{client.address}}</td>
+                        <td>{{client.phone_no}}</td>
+                        <td>{{client.join_date}}</td>
+                        <td><a class="btn btn-primary" href="{% url 'update_client' client.id %}" >Update</a></td>
+                        <td><a class="btn btn-danger" href="{% url 'delete_client' client.id %}" >Delete</a></td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="blog-pagination">
+            {% if client_obj.has_other_pages %}
+              <ul class="pagination justify-content-center">
+                {% if client_obj.has_previous %}
+                  <li><a href="?page={{ client_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in client_obj.paginator.page_range %}
+                  {% if client_obj.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if client_obj.has_next %}
+                  <li><a href="?page={{ client_obj.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+        </div>
+        <br/><br/>
+    </section>
+    <!-- end Client -->
+
+    {% if request.user.is_superuser %}
+    <section class="contact-section spad ">
+        <div class="container ">
+            <h3 class="text-white m-2">New Member</h3>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="leave-comment">
+                        <form method="POST" enctype="multipart/form-data" action="">
+                            {% csrf_token %}
+                            {{form.as_p}}
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+
+
+
+{% endblock content %}

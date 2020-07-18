@@ -1,0 +1,125 @@
+{% extends 'fact/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb-bg.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb-text">
+                    <h2>Trainers detail</h2>
+                    <div class="bt-option">
+                        <a href="{% url 'home' %}">Home</a>
+                        <span>Trainer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Class Details Section Begin -->
+<section class="class-details-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="class-details-text">
+                    <div class="cd-trainer">
+                        {% for trainer in trainer_obj %}
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-5">
+                                <div class="cd-trainer-pic">
+                                    <img src="{{ trainer.trainer_imageURL}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="cd-trainer-text">
+                                    <div class="trainer-title">
+                                        <h4>{{trainer.name}}</h4>
+                                        <span>Gym Trainer</span>
+                                    </div>
+                                    <div class="trainer-social">
+                                        <a href="{{ trainer.facebook }}"><i class="fa fa-facebook"></i></a>
+                                        <a href="{{trainer.tweet}}"><i class="fa fa-twitter"></i></a>
+                                        <a href="{{trainer.instagram}}"><i class="fa fa-instagram"></i></a>
+                                    </div>
+
+
+                                    {% if request.user.is_superuser %}
+                                    <a class="btn btn-sm btn-info" href="{% url 'trainer_form' trainer.id %}">update</a>
+                                    <a class="btn btn-sm btn-danger" href="{% url 'delete_trainer' trainer.id %}">Delete</a>
+                                    {% endif %}
+
+                                    <ul class="trainer-info">
+                                        <li><span>Qualification</span>{{trainer.qualification}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <br /><br /><br />
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Class Details Section End -->
+
+{% if request.user.is_superuser %}
+<!-- Contact Section Begin -->
+<section class="contact-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <div class="leave-comment">
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'trainer' %}">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Section End -->
+{% endif %}
+
+<div class="gettouch-section">
+    <div class="container">
+        {% for info in info_obj %}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="gt-text">
+                    <i class="fa fa-map-marker"></i>
+                    <p>{{info.address}}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gt-text">
+                    <i class="fa fa-mobile"></i>
+                    <ul>
+                        <li>{{info.mobile}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gt-text email">
+                    <i class="fa fa-envelope"></i>
+                    <p>{{info.email}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- Get In Touch Section End -->
+
+{% endblock content %}

@@ -1,0 +1,45 @@
+{% extends 'fact/base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb-bg.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb-text">
+                    <h2>Member</h2>
+                    <div class="bt-option">
+                        <a href="{% url 'home' %}">Home</a>
+                        <a href="{% url 'admin_page' %}">Admin</a>
+                        <span>Staff</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+
+{% if request.user.is_superuser %}
+<section class="contact-section spad ">
+    <div class="container ">
+        <h3 class="text-white m-2">Update Staff Member</h3>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="leave-comment">
+                    <form method="POST" enctype="multipart/form-data" action="">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock content %}

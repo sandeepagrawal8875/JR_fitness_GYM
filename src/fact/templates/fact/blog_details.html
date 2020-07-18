@@ -1,0 +1,41 @@
+{% extends 'fact/base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Blog Details Hero Section Begin -->
+<section class="blog-details-hero set-bg" data-setbg="{{blog.imageURL}}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 p-0 m-auto">
+                <div class="bh-text">
+                    <h3>{{blog.heading}}</h3>
+                    <ul>
+                        <li>by Admin</li>
+                        <li>{{blog.time}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Blog Details Section Begin -->
+<section class="blog-details-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 p-0 m-auto">
+                <div class="blog-details-text">
+                    <div class="blog-details-quote">
+                        <div class="quote-icon">
+                            <img src="{% static 'img/blog/details/quote-left.png' %}" alt="">
+                        </div>
+                        <h5>{{blog.text}}</h5>
+                        <span>By Admin</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Section End -->
+{% endblock content %}
