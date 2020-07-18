@@ -1,8 +1,6 @@
-# GYM fitness website with django
+# resume (like linkedin) website with django
 
 source code here.. <br />
-
-you can see demo of this website picture are stored in "final project image (demo)"<br />
 
 instruction for run :<br />
 
