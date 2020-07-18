@@ -1,4 +1,4 @@
-# resume (like linkedin) website with django
+#  gym website with django
 
 source code here.. <br />
 
@@ -27,8 +27,9 @@ instruction for run :<br />
     <dd>"python manage.py runserver"</dd>
 </dl>
 
+that's all 
 
-that's all now go to browser and open http://127.0.0.1:8000/
+clean and fresh website is ready http://127.0.0.1:8000/
 
 admin page <br />
 username : sunny<br />
